@@ -1,8 +1,18 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{4C7AF181-4AEB-FAA7-5608-458551AECCBD}",
+	"EngineAssociation": "5.4",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "Basic",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",
