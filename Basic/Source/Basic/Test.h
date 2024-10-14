@@ -22,5 +22,27 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	UPROPERTY(EditDefaultsOnly)
+	int32 EDOVal = 10;
+	UPROPERTY(EditInstanceOnly)
+	int32 EIOVal = 20;
+	UPROPERTY(EditAnywhere)
+	int32 EAVal = 30;
+	UPROPERTY(VisibleDefaultsOnly)
+	int32 VDOVal = 40;
+	UPROPERTY(VisibleInstanceOnly)
+	int32 VIOVal = 50;
+	UPROPERTY(VisibleAnywhere)
+	int32 VAVal = 60;
 
+private:
+	UPROPERTY(VisibleAnywhere)
+	float RunningTime = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Amplitude = 0.5f;//진폭
+
+	UPROPERTY(EditInstanceOnly)
+	float TimeConstant = 10.f;//sin속도를 가속
 };

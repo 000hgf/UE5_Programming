@@ -73,7 +73,11 @@ Plugins/**/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
+# KDT3 추가
 Basic/Intermediate/*
-
 Basic/Saved/*
 
+Basic/Intermediate/*
+Basic/Saved/*
+Basic/.vsconfig
+Basic/Binaries/*
