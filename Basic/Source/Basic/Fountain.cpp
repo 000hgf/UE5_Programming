@@ -19,11 +19,11 @@ AFountain::AFountain()
 	//가상경로
 	// / Script / Engine.StaticMesh'/Game/EX10_cpp/Fountain/SM_Fountain.SM_Fountain'
 	//절 대 실무에서 소스코드에 경로를 박아놓지말것(개박살남)
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> SM_BODY(TEXT(" / Game / EX10_cpp / Fountain / SM_Fountain.SM_Fountain"));
+	/*static ConstructorHelpers::FObjectFinder<UStaticMesh> SM_BODY(TEXT(" / Game / EX10_cpp / Fountain / SM_Fountain.SM_Fountain"));
 	if (SM_BODY.Succeeded())
 	{
 		Body->SetStaticMesh(SM_BODY.Object);
-	}
+	}*/
 
 	Movement = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("MOVEMENT"));
 
