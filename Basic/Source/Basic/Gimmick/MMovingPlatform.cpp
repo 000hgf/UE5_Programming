@@ -49,8 +49,11 @@ void AMMovingPlatform::MovePlatform(float DeltaTime)
 void AMMovingPlatform::RotatePlatform(float DeltaTime)
 {
 	FRotator CurrentRotation = GetActorRotation();
-	CurrentRotation = CurrentRotation + (RotationVelocity * DeltaTime);
-	SetActorRotation(CurrentRotation);
+	//CurrentRotation = CurrentRotation + (RotationVelocity * DeltaTime);
+	//SetActorRotation(CurrentRotation);
+	// 피치 회전시 오류 수정 버전
+	CurrentRotation = RotationVelocity * DeltaTime;
+	AddActorLocalRotation(CurrentRotation);
 }
 
 bool AMMovingPlatform::ShouldPlatformReturn() const
