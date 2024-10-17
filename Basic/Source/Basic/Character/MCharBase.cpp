@@ -31,7 +31,6 @@ AMCharBase::AMCharBase()
 void AMCharBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMCharBase::Tick(float DeltaTime)

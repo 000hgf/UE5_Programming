@@ -39,6 +39,6 @@ void ADelegateTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 
 void ADelegateTrigger::NotifyActorEndOverlap(AActor* OtherActor)
 {
-	auto Message = FString::Printf(TEXT(" %s BeginOverlap"), *(OtherActor->GetName()));
+	auto Message = FString::Printf(TEXT(" %s EndOverlap"), *(OtherActor->GetName()));
 	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, Message);
 }

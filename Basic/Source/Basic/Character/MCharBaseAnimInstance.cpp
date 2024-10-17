@@ -21,7 +21,7 @@ void UMCharBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		MCharVelocity = MCharMovementComponent->Velocity;
 		MCharSpeed = UKismetMathLibrary::VSizeXY(MCharVelocity);
 
-		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue, FString::Printf(TEXT("Speed: %f"), MCharSpeed));
+		//GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue, FString::Printf(TEXT("Speed: %f"), MCharSpeed));
 		FVector test;
 
 		MShouldMove = false;

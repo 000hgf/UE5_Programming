@@ -38,6 +38,10 @@ public:
 	void Look(const FInputActionValue& Value);
 	void Move(const FInputActionValue& Value);
 
+	//블루프린트
+	UFUNCTION(BlueprintImplementableEvent)
+	void WinBluePrint_Implementation();
+
 public:
 	AMCharBase();
 
