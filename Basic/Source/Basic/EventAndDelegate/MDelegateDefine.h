@@ -22,3 +22,5 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FMulticastDelegateSignature1,FLinearColor)
 //멀티캐스트 델리게이트에 인자 2개를 전달
 DECLARE_MULTICAST_DELEGATE_TwoParams(FMulticastDelegateSignature2, FLinearColor, int32)
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FMDSignature1, int32)
+

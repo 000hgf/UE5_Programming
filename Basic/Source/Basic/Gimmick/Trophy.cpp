@@ -44,7 +44,7 @@ void ATrophy::OnOverlapTrophyMesh(UPrimitiveComponent* OverlappedComp, AActor* O
 		UMGameInstance* MGI = Cast<UMGameInstance>(World->GetGameInstance());
 		if (MGI != nullptr)
 		{
-			MGI->DefaultDelegateSignature.ExecuteIfBound();
+			MGI->MD_GameEnd.Broadcast(1);
 		}
 	}
 }
