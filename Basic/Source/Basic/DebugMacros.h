@@ -42,3 +42,23 @@ if (GetWorld()) \
 	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, -1.f, 0, 1.f); \
 	DrawDebugPoint(GetWorld(), EndLocation, 15.f, FColor::Red, false, -1.f); \
 }
+
+DECLARE_LOG_CATEGORY_EXTERN(Mong, Log, All);
+
+// 함수 이름 + 코드 라인 출력
+#define HLOG_CALLINFO ( FString(__FUNCTION__) + TEXT("(") + FString::FromInt(__LINE__) + TEXT(")") )
+
+#define HLOG_S( Verbosity ) \
+	UE_LOG( Mong, Verbosity, TEXT("%s"), *HLOG_CALLINFO )
+
+#define HLOG( Verbosity, Format, ... ) \
+	UE_LOG( Mong, Verbosity, TEXT("%s %s"), *HLOG_CALLINFO, *FString::Printf(Format, ##__VA_ARGS__) )
+
+#define HCHECK( Expr, ... ) \
+{ \
+	if( !(Expr) ) \
+	{ \
+		HLOG( Error, TEXT("ASSERTION : %s"), TEXT("'"#Expr"'") ); \
+        return __VA_ARGS__; \
+	} \
+}

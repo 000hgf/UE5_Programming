@@ -3,4 +3,5 @@
 #include "Basic.h"
 #include "Modules/ModuleManager.h"
 
+DEFINE_LOG_CATEGORY(Mong)
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, Basic, "Basic" );

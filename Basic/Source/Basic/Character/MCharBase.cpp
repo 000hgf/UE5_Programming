@@ -18,7 +18,7 @@ AMCharBase::AMCharBase()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
+	CameraBoom->SetupAttachment(GetMesh());
 	CameraBoom->TargetArmLength = 400.f;//±»ÀÌ CPP¿¡¼­ ¾ÈÇØµµ µÊ
 	CameraBoom->bUsePawnControlRotation = true;
 
