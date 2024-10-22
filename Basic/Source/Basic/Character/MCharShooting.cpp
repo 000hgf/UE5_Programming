@@ -2,6 +2,8 @@
 #include "../Ex_Shooting/Rifle.h"
 #include "EnhancedInputComponent.h"
 #include "../DebugMacros.h"
+#include "Components/CapsuleComponent.h"
+#include "Shooting/ShootingGameModeBase.h"
 
 void AMCharShooting::BeginPlay()
 {
@@ -58,5 +60,17 @@ float AMCharShooting::TakeDamage(float DamageAmount, FDamageEvent const& DamageE
 	DamageToApply = FMath::Min(Health, DamageToApply);
 	Health -= DamageToApply; //Health는 0밑으로 떨어지지않는다.
 	HLOG(Warning, TEXT("Health: %f/%f"), Health, MaxHealth);
+	if (IsDead())
+	{
+		AShootingGameModeBase* GameMode = GetWorld()->GetAuthGameMode<AShootingGameModeBase>();
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
+		//캐릭터와 컨트롤러를 분리(UnPossess)=>AI동작 못함
+		this->DetachFromControllerPendingDestroy();
+		//캡슐 콜리전 무효화
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 	return 0.0f;
 }
