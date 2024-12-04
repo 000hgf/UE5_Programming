@@ -1,71 +1,67 @@
-
+#include "HCharBase.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "MCharBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 
-AMCharBase::AMCharBase()
+
+AHCharBase::AHCharBase()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
+	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
+
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(GetMesh());
-	CameraBoom->TargetArmLength = 400.f;//±»ÀÌ CPP¿¡¼­ ¾ÈÇØµµ µÊ
+	CameraBoom->SetupAttachment(GetRootComponent());
+	CameraBoom->TargetArmLength = 400.0f;
 	CameraBoom->bUsePawnControlRotation = true;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
-
 }
 
-void AMCharBase::BeginPlay()
+void AHCharBase::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void AMCharBase::Tick(float DeltaTime)
+void AHCharBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	// ¼­ÀÖ´Â »óÅÂ¿¡¼­ ±â¹Í¿¡ ¹Ð·ÈÀ»¶§ Ãæµ¹·Î ÀÎÇØ Ä«¸Þ¶ó°¡ ±ôºýÀÌ´Â Çö»ó ²Ä¼ö·Î Á¦°Å
-	FHitResult res;
-	GetCharacterMovement()->K2_MoveUpdatedComponent(FVector(1.0, 1.0, 0.0), GetActorRotation(), res);
-	GetCharacterMovement()->K2_MoveUpdatedComponent(FVector(-1.0, -1.0, 0.0), GetActorRotation(), res);
 }
 
-void AMCharBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AHCharBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-
-	// 1.IMC ¼¼ÆÃ+
+	// 1) IMC ì„¸íŒ…
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
-		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-		if (Subsystem)
+		if(UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
-			Subsystem->AddMappingContext(IMC_Asset, 0);
+			SubSystem->AddMappingContext(IMC_Asset, 0);
 		}
 	}
-	// 2. ÀÔ·Â ¾×¼Ç ¼¼ÆÃ
-	if(UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+
+	// 2) ìž…ë ¥ ì•¡ì…˜ ì„¸íŒ…
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		EnhancedInputComponent->BindAction(IA_Look, ETriggerEvent::Triggered, this, &AMCharBase::Look);
+		// Looking
+		EnhancedInputComponent->BindAction(IA_Look, ETriggerEvent::Triggered, this, &AHCharBase::Look);
+		// Jumping
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-		EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AMCharBase::Move);
+		// Moving
+		EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AHCharBase::Move);
 	}
 }
 
-void AMCharBase::Look(const FInputActionValue& Value)
+void AHCharBase::Look(const FInputActionValue& Value)
 {
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
@@ -76,9 +72,10 @@ void AMCharBase::Look(const FInputActionValue& Value)
 	}
 }
 
-void AMCharBase::Move(const FInputActionValue& Value)
+void AHCharBase::Move(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
+
 	if (Controller != nullptr)
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -91,5 +88,3 @@ void AMCharBase::Move(const FInputActionValue& Value)
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
 }
-
-
