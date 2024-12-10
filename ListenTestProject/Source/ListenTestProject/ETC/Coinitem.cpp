@@ -4,6 +4,8 @@
 #include "Sound/SoundBase.h"
 #include "../Character/CoinGameCharacter.h"
 #include "../CoinFramework/CoinGameState.h"
+#include "../CoinFramework/CoinGameMode.h"
+#include "../Component/itemBuffComponent.h"
 
 ACoinitem::ACoinitem()
 {
@@ -31,7 +33,7 @@ void ACoinitem::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 {
 	ACoinGameCharacter* Character = Cast<ACoinGameCharacter>(OtherActor);
 
-	if(Character == nullptr || !HasAuthority())
+	if(!HasAuthority())
 	{
 		return;
 	}
@@ -42,9 +44,24 @@ void ACoinitem::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 		GameState->RemovePickup();
 	}
 
+	ACoinGameMode* GameMode = Cast<ACoinGameMode>(GetWorld()->GetAuthGameMode());
+	if (GameMode == nullptr)
+	{
+		return;
+	}
+
 	Character->ClientPlaySound2D(PickupSound);
 	Character->AddScore(10);
 	Character->AddPickup();
+
+	if (ItemTypeSpeed == true)
+	{
+		UitemBuffComponent* ItemBuff = Character->GetitemBuff();
+		if (ItemBuff)
+		{
+			ItemBuff->SpeedBuffProc(BaseSpeedBuff, SpeedBuffTime);
+		}
+	}
 	Destroy();
 }
 

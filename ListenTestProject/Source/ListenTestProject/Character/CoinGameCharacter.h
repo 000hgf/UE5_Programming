@@ -9,6 +9,9 @@ class LISTENTESTPROJECT_API ACoinGameCharacter : public AHCharBase
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY(VisibleAnywhere)
+	class UitemBuffComponent* ItemBuff;
 public:
 	ACoinGameCharacter();
 
@@ -16,6 +19,10 @@ public:
 	class USoundBase* FallSound;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character")
 	class USoundBase* LandSound;
+
+	FORCEINLINE UitemBuffComponent* GetitemBuff() const { return ItemBuff; };
+
+	virtual void PostInitializeComponents() override;
 
 protected:
 	virtual void BeginPlay() override;

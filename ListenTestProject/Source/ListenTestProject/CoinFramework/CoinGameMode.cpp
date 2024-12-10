@@ -4,6 +4,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Character/CoinGameCharacter.h"
 
+ACoinGameMode::ACoinGameMode()
+{
+	GConfig->GetInt(TEXT("Rule"), TEXT("PickupPoint"), PickupPoint, GGameIni);
+	GConfig->GetInt(TEXT("Rule"), TEXT("FelloutPoint"), FelloutPoint, GGameIni);
+}
+
 void ACoinGameMode::BeginPlay()
 {
 	Super::BeginPlay();

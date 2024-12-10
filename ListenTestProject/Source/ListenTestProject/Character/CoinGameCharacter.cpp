@@ -1,9 +1,12 @@
 #include "CoinGameCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/GameMode.h"
+#include "../CoinFramework/CoinGameMode.h"
 #include "../CoinFramework/CoinPlayerState.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "../Component/itemBuffComponent.h"
+#include "../ETC/HDebugMacros.h"
 
 ACoinGameCharacter::ACoinGameCharacter()
 {
@@ -19,6 +22,21 @@ ACoinGameCharacter::ACoinGameCharacter()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
+
+	//아이템 버프 컴포넌트 생성(리플리케이티드 설정)
+	ItemBuff = CreateDefaultSubobject<UitemBuffComponent>("ItemBuff");
+	ItemBuff->SetIsReplicated(true);
+}
+
+void ACoinGameCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	if (ItemBuff)
+	{
+		ItemBuff->CoinGameCharacter = this;
+		ItemBuff->SetInitialSpeed(GetCharacterMovement()->MaxWalkSpeed);
+	}
 }
 
 void ACoinGameCharacter::BeginPlay()
@@ -46,11 +64,13 @@ void ACoinGameCharacter::Landed(const FHitResult& Hit)
 void ACoinGameCharacter::FellOutOfWorld(const UDamageType& dmgType)
 {
 	AController* BackupController = Controller;
+	ACoinGameMode* GameMode = Cast<ACoinGameMode>(GetWorld()->GetAuthGameMode<AGameMode>());
+	if (GameMode)
+	{
+		AddScore(GameMode->FelloutPoint);
+	}
 
-	AddScore(-10);
 	Destroy();
-
-	AGameMode* GameMode = GetWorld()->GetAuthGameMode<AGameMode>();
 	if (GameMode)
 	{
 		GameMode->RestartPlayer(BackupController);
