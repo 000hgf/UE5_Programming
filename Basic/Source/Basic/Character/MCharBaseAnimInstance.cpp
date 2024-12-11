@@ -22,7 +22,7 @@ void UMCharBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		MCharSpeed = UKismetMathLibrary::VSizeXY(MCharVelocity);
 
 		//GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue, FString::Printf(TEXT("Speed: %f"), MCharSpeed));
-		FVector test;
+		
 
 		MShouldMove = false;
 		bool Acceleration = !MCharMovementComponent->GetCurrentAcceleration().Equals(FVector::ZeroVector,0);
